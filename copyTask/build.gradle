@@ -1,0 +1,39 @@
+dependencies{
+    compile 'org.apache.commons:commons-lang3:3.4'
+}
+
+// mainClassName = "com.wdxxl.copyTask.LetStart" 
+// required otherwise will throw exception
+mainClassName = ""
+
+// 这里的“<<”表示向helloWorld中加入执行代码——其实就是groovy代码
+task hello1World << {
+    println 'Hello World!'
+}
+
+// 以上copyFile将xml文件夹中的所有内容拷贝到destination文件夹中。
+// 这里的两个文件夹都是相对于当前Project而言的，即build.gradle文件所在的目录。
+// gradle build copyFile
+task copyFile(type:Copy){
+    from 'from/2BCopied.txt'
+    from 'bootstrap.sh'
+    from 'config.yaml'
+    from 'build/libs'
+    into 'build/distributions'
+}
+
+// gradle buildWithCopy
+task buildWithCopy (dependsOn:build){
+    doLast{
+          copy{
+              from 'from/2BCopied.txt'
+              from 'bootstrap.sh'
+              from 'config.yaml'
+              from 'build/libs/copyTask.jar'
+              into 'build/distributions'
+          }
+    }
+}
+
+// :copyTask:distZip SKIPPED
+distZip.onlyIf {false}

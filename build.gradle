@@ -1,0 +1,17 @@
+subprojects{ subProject ->
+    apply plugin: 'java'
+    apply plugin: 'application'
+    apply plugin: 'eclipse'
+
+    repositories{
+        mavenCentral()
+    }
+
+    dependencies{
+        compile 'junit:junit:4.11'
+    }
+}
+
+wrapper {
+    gradleVersion = '2.5'
+}
