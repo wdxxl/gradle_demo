@@ -1,9 +1,17 @@
 repositories{
     mavenLocal()
     mavenCentral()
+    maven {
+        url 'http://localhost:8081/artifactory/libs-snapshot'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
 }
 
 dependencies{
     compile 'com.wdxxl:PublishTask:1.+'
+    compile 'com.wdxxl:publishToArtifactory:1.+'
     compile 'org.apache.commons:commons-lang3:3.4'
 }

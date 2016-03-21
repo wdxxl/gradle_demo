@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        maven {
+            url 'http://localhost:8081/artifactory/plugins-release'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+            name = "maven-main-cache"
+        }
+    }
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1"
+    }
+}
+
+apply plugin: 'maven-publish'
+apply plugin: "com.jfrog.artifactory"
+
+version = '1.1.0-SNAPSHOT'
+group = 'com.wdxxl'
+
+repositories {
+    add buildscript.repositories.getByName("maven-main-cache")
+}
+
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.useAnt = false
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    publish {
+        repository {
+            repoKey = 'libs-snapshot-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
