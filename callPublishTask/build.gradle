@@ -1,0 +1,9 @@
+repositories{
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies{
+    compile 'com.wdxxl:PublishTask:1.+'
+    compile 'org.apache.commons:commons-lang3:3.4'
+}

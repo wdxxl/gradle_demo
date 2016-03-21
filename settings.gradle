@@ -1,1 +1,3 @@
 include 'copyTask'
+include 'publishTask'
+include 'callPublishTask'

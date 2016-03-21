@@ -1,0 +1,38 @@
+apply plugin: 'maven-publish'
+
+dependencies{
+	testCompile 'junit:junit:4.12'
+    compile 'org.apache.commons:commons-lang3:3.3.2'
+}
+
+// add sources java code, for easy to view code inside of jar
+task sourceJar (type:Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+// $ gradle publishToMavenLocal
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId 'com.wdxxl'
+			artifactId 'PublishTask'
+			version '1.0.8-SNAPSHOT'
+
+			from components.java
+			
+			artifact(sourceJar) {
+			    classifier = 'sources'
+			}
+			
+        	// By default, the Gradle plugin publishes all artifacts
+            // with scope='runtime'...
+            // pom.withXml { xml ->
+            //     xml.asNode().dependencies.dependency.each{
+            //        it.scope.get(0).value = 'compile';
+            //     }
+            //     asNode().appendNode('description','A demonstration of maven POM customization')
+            // }
+		}
+	}
+}
